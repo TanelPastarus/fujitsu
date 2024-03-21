@@ -8,8 +8,10 @@ import com.fujitsu.delivery.model.*;
 import com.fujitsu.delivery.service.DeliveryService;
 
 import com.fujitsu.delivery.service.WeatherService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
@@ -31,9 +33,6 @@ public class Controller {
         weatherService.addWeather(new Weather(1L, City.TARTU, -11.0, 21.0, WeatherPhenomenon.RAINY, 26038, Timestamp.from(Instant.now()) ));
         weatherService.addWeather(new Weather(2L, City.PÄRNU, -5.0, 15.0, WeatherPhenomenon.GLAZE, 26038, Timestamp.from(Instant.now()) ));
         weatherService.addWeather(new Weather(3L, City.TALLINN, 10, 1, WeatherPhenomenon.SNOWY, 26038, Timestamp.from(Instant.now()) ));
-        deliveryService.addCityBaseFee(new CityBaseFee(1L, City.TALLINN, 3.0, 3.5, 4.0));
-        deliveryService.addCityBaseFee(new CityBaseFee(2L, City.TARTU, 2.5, 3, 3.5));
-        deliveryService.addCityBaseFee(new CityBaseFee(3L, City.PÄRNU, 2, 2.5, 3.0));
         //weatherService.updateWeatherData();
 
     }
@@ -51,7 +50,9 @@ public class Controller {
     public ResponseEntity<String> defaultPage() {
         return new ResponseEntity<>("""
                 Delivery API:  /city/vehicle <br>
-                Supported cities: Tartu, Tallinn, Pärnu <br>
+                Update a city: /basefee/update <br>
+                Get base fee for a city and vehicle: /basefee/city/vehicle <br>
+                Supported cities: TARTU, TALLINN, PÄRNU <br>
                 Supported vehicles: Car, Bike, Scooter
                 """, HttpStatus.OK);
 
@@ -59,10 +60,20 @@ public class Controller {
 
     @GetMapping("/{city}/{vehicle}")
     public ResponseEntity<Double> getDeliveryFee(@PathVariable String city, @PathVariable String vehicle) {
-            City c = City.valueOf(city.toUpperCase());
-            Vehicle v = Vehicle.valueOf(vehicle.toUpperCase());
-            double fee = deliveryService.FindCityFee(c, v);
+            double fee = deliveryService.FindCityFee(city, vehicle);
             return new ResponseEntity<>(fee, HttpStatus.OK);
     }
 
+    @GetMapping("/basefee/{city}/{vehicle}")
+    public ResponseEntity<Double> getCityBaseFee(@PathVariable String city,  @PathVariable String vehicle) {
+        double baseFee = deliveryService.findCityBaseFee(city, vehicle);
+        return new ResponseEntity<>(baseFee, HttpStatus.OK);
+
+    }
+
+    @PutMapping("/basefee/update")
+    public ResponseEntity<String> updateCityBaseFee(@Valid @RequestBody CityBaseFee city) {
+        deliveryService.updateCityBaseFee(city);
+        return new ResponseEntity<>("Basefees for city "+city.getCity()+" updated succesfully", HttpStatus.OK);
+    }
 }

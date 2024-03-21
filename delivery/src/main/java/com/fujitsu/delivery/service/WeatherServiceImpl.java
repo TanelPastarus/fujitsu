@@ -4,7 +4,6 @@ import com.fujitsu.delivery.constants.City;
 import com.fujitsu.delivery.model.Weather;
 import com.fujitsu.delivery.constants.WeatherPhenomenon;
 import com.fujitsu.delivery.repository.WeatherRepository;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -1,0 +1,12 @@
+PUT http://localhost:8080/basefee/update
+Content-Type: application/json
+
+{
+  "city": "PÄRNU",
+
+  "bikeFee": 56,
+
+  "scooterFee": 20,
+
+  "carFee": 11
+}

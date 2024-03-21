@@ -1,6 +1,5 @@
-package com.fujitsu.delivery;
-import com.fujitsu.delivery.service.WeatherService;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
+package com.fujitsu.delivery.service;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
@@ -17,9 +16,9 @@ public class WeatherDataImport {
         this.weatherService = weatherService;
     }
 
+    //Configurable in resources/application.properties file
     @Scheduled(cron = "${weather.import.cron}")
     public void importWeatherData() throws IOException, ParserConfigurationException, SAXException {
-        // This method will be executed according to the configured cron expression
         weatherService.updateWeatherData();
     }
 }

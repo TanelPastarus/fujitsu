@@ -24,21 +24,49 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public double FindCityFee(City city, Vehicle vehicle) {
-        CityBaseFee cityBaseFee = cityBaseFeeRepo.findCityBaseFeeByCity(city);
-        Weather weather = weatherService.findLatestWeatherByCity(city);
+    public double findCityBaseFee(String city, String vehicle) {
+        City c = City.valueOf(city.toUpperCase());
+        Vehicle v = Vehicle.valueOf(vehicle.toUpperCase());
+        CityBaseFee cityBase = cityBaseFeeRepo.findCityBaseFeeByCity(c);
+
+        if (v == Vehicle.CAR) return cityBase.getCarFee();
+        else if (v == Vehicle.BIKE) return cityBase.getBikeFee();
+        else return cityBase.getScooterFee();
+    }
+
+    @Override
+    public void updateCityBaseFee(CityBaseFee updatedCity) {
+        City c = updatedCity.getCity();
+
+        CityBaseFee cityBase = cityBaseFeeRepo.findCityBaseFeeByCity(c);
+
+        cityBase.setCarFee(updatedCity.getCarFee());
+        cityBase.setBikeFee(updatedCity.getBikeFee());
+        cityBase.setScooterFee(updatedCity.getScooterFee());
+        cityBaseFeeRepo.save(cityBase);
+    }
+
+
+    @Override
+    public double FindCityFee(String city, String vehicle) {
+
+        City c = City.valueOf(city.toUpperCase());
+        Vehicle v = Vehicle.valueOf(vehicle.toUpperCase());
+
+        CityBaseFee cityBaseFee = cityBaseFeeRepo.findCityBaseFeeByCity(c);
+        Weather weather = weatherService.findLatestWeatherByCity(c);
         double fee = 0;
 
         double airTemperature = weather.getAirTemperature();
         double windSpeed = weather.getWindSpeed();
         WeatherPhenomenon weatherPhenomenon = weather.getWeatherPhenomenon();
 
-        if (vehicle == Vehicle.CAR) {
+        if (v == Vehicle.CAR) {
             return cityBaseFee.getCarFee();
         }
 
-        if (vehicle == Vehicle.BIKE || vehicle == Vehicle.SCOOTER) {
-            if (vehicle == Vehicle.BIKE) {
+        if (v == Vehicle.BIKE || v == Vehicle.SCOOTER) {
+            if (v == Vehicle.BIKE) {
                 fee = cityBaseFee.getBikeFee();
 
                 if (windSpeed > 20) {

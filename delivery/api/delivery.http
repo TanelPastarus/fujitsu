@@ -1,12 +1,33 @@
-PUT http://localhost:8080/basefee/update
+### Example 1
+
+PUT http://localhost:8080/extrafee/update
 Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
 
 {
-  "city": "PÄRNU",
+  "vehicle":"BIKE",
+  "wpefGlaze":0.0,
+  "wpefRainy":3.0,
+  "wsefBetween10And20":0,
+  "atefBetweenMinus10And0":1,
+  "atefUnderMinus10": -1,
+  "wpefSnowy":22,
+  "wsefOver20":0
+}
 
-  "bikeFee": 56,
+### Example 2
 
-  "scooterFee": 20,
+PUT http://localhost:8080/basefee/update
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
 
-  "carFee": 11
+{
+"city": "TALLINN",
+"bikeFee": 10,
+"carFee": 11,
+"scooterFee":12
 }

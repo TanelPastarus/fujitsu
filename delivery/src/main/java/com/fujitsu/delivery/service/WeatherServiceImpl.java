@@ -27,16 +27,30 @@ public class WeatherServiceImpl implements WeatherService {
         this.weatherRepo = weatherRepo;
     }
 
+    /**
+     * Adds weather data to the database
+     *
+     * @param weather - weather data
+     */
     @Override
     public void addWeather(Weather weather) {
         weatherRepo.save(weather);
     }
 
+    /**
+     * Finds the latest weather data for that city
+     *
+     * @param city - city name
+     * @return - weather data
+     */
     @Override
     public Weather findLatestWeatherByCity(City city) {
         return weatherRepo.findTop1WeatherByNameOrderByTimestampDesc(city);
     }
 
+    /**
+     * Updates weather data from the Ilmateenistus XML
+     */
     @Override
     public void updateWeatherData() throws IOException, SAXException, ParserConfigurationException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -62,9 +76,12 @@ public class WeatherServiceImpl implements WeatherService {
                     weather.setAirTemperature(Double.parseDouble(eElement.getElementsByTagName("airtemperature").item(0).getTextContent()));
 
                     String pheno = eElement.getElementsByTagName("phenomenon").item(0).getTextContent();
-                    if (pheno.contains("snow") || pheno.contains("sleet")) weather.setWeatherPhenomenon(WeatherPhenomenon.SNOWY);
-                    else if(pheno.contains("rain") || pheno.contains("shower")) weather.setWeatherPhenomenon(WeatherPhenomenon.RAINY);
-                    else if (pheno.contains("glaze") || pheno.contains("hail") || pheno.contains("thunder")) weather.setWeatherPhenomenon(WeatherPhenomenon.GLAZE);
+                    if (pheno.contains("snow") || pheno.contains("sleet"))
+                        weather.setWeatherPhenomenon(WeatherPhenomenon.SNOWY);
+                    else if (pheno.contains("rain") || pheno.contains("shower"))
+                        weather.setWeatherPhenomenon(WeatherPhenomenon.RAINY);
+                    else if (pheno.contains("glaze") || pheno.contains("hail") || pheno.contains("thunder"))
+                        weather.setWeatherPhenomenon(WeatherPhenomenon.GLAZE);
                     else weather.setWeatherPhenomenon(WeatherPhenomenon.NONE);
 
                     weather.setWMOCode(Integer.parseInt(eElement.getElementsByTagName("wmocode").item(0).getTextContent()));

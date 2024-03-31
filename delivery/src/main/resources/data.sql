@@ -12,3 +12,37 @@ INSERT INTO CITY_BASE_FEE (ID, CITY, BIKE_FEE, SCOOTER_FEE, CAR_FEE)
 SELECT 3, 'PÄRNU', 2.0, 2.5, 3.0
 FROM DUAL
 WHERE NOT EXISTS (SELECT 1 FROM CITY_BASE_FEE WHERE CITY = 'PÄRNU');
+
+INSERT INTO VEHICLE_EXTRA_FEES (ID, VEHICLE, ATEF_UNDER_MINUS10, ATEF_BETWEEN_MINUS10AND0,
+                                WSEF_BETWEEN10AND20,
+                                WSEF_OVER20,
+                                WPEF_SNOWY,
+                                WPEF_RAINY,
+                                WPEF_GLAZE
+)
+
+SELECT 1, 'CAR', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+FROM DUAL
+WHERE NOT EXISTS (SELECT 1 FROM VEHICLE_EXTRA_FEES WHERE VEHICLE = 'CAR');
+
+INSERT INTO VEHICLE_EXTRA_FEES (ID, VEHICLE, ATEF_UNDER_MINUS10, ATEF_BETWEEN_MINUS10AND0,
+                                WSEF_BETWEEN10AND20,
+                                WSEF_OVER20,
+                                WPEF_SNOWY,
+                                WPEF_RAINY,
+                                WPEF_GLAZE
+)
+SELECT 2, 'BIKE', 1.0, 0.5, 0.5, -1, 1.0, 0.5, -1
+FROM DUAL
+WHERE NOT EXISTS (SELECT 1 FROM VEHICLE_EXTRA_FEES WHERE VEHICLE = 'BIKE');
+
+INSERT INTO VEHICLE_EXTRA_FEES (ID, VEHICLE, ATEF_UNDER_MINUS10, ATEF_BETWEEN_MINUS10AND0,
+                                WSEF_BETWEEN10AND20,
+                                WSEF_OVER20,
+                                WPEF_SNOWY,
+                                WPEF_RAINY,
+                                WPEF_GLAZE
+)
+SELECT 3, 'SCOOTER', 1.0, 0.5, 0.0, 0.0, 1.0, 0.5, -1
+FROM DUAL
+WHERE NOT EXISTS (SELECT 1 FROM VEHICLE_EXTRA_FEES WHERE VEHICLE = 'SCOOTER');

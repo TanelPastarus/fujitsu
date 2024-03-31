@@ -21,11 +21,14 @@ public class CityBaseFee {
     private City city;
 
     @PositiveOrZero
-    private double bikeFee;
+    @NotNull
+    private Double bikeFee;
 
     @PositiveOrZero
-    private double scooterFee;
+    @NotNull
+    private Double scooterFee;
 
     @PositiveOrZero
-    private double carFee;
+    @NotNull
+    private Double carFee;
 }

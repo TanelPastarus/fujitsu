@@ -16,7 +16,10 @@ public class WeatherDataImport {
         this.weatherService = weatherService;
     }
 
-    //Configurable in resources/application.properties file
+    /**
+     * Imports weather data from the Estonian Weather Service
+     * Configurable in resources/application.properties file
+     */
     @Scheduled(cron = "${weather.import.cron}")
     public void importWeatherData() throws IOException, ParserConfigurationException, SAXException {
         weatherService.updateWeatherData();

@@ -27,19 +27,21 @@ public class Weather {
     // Maximum and minimum highest temperature ever recorded
     @Max(value = 60)
     @Min(value = -90)
-    private double airTemperature;
+    @NotNull
+    private Double airTemperature;
 
     // Maximum surface wind
     @PositiveOrZero
     @Max(value = 115)
-    private double windSpeed;
+    @NotNull
+    private Double windSpeed;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private WeatherPhenomenon weatherPhenomenon;
 
     @NotNull
-    private int WMOCode;
+    private Integer WMOCode;
 
     @CreationTimestamp
     private Timestamp timestamp;

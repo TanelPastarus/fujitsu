@@ -11,6 +11,7 @@ The server is running on port 8080. The following endpoints are available:
 * PUT `/extrafee/update` - update the delivery extra fee (based on weather) for a city
 
 ## Database
+The database can be accessed in `localhost:8080/h2-console`. The username is `sa` and password is `123`.
 
 There are 3 tables in the database:
 * `CITY_BASE_FEE` - contains the base fees for bike, car and scooter for each city
